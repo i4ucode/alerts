@@ -69,13 +69,14 @@ $messages = $alerts->warnings();
 $messages = $alerts->errors();
 ```
 
-The MessageCollection implements the `ArrayIterator` interface so it's simple to iterate through messages:
+### Iterating alerts
+
+The MessageCollection returned implements the `ArrayIterator` interface so it's simple to iterate through messages:
 
 ```php
 foreach ($alerts->errors() as $message) {
     // $message is an Alerts\Message object
     echo $message->getMessage();  // Return the string message
-    echo $message;  // $message also overrides _toString to automatically return the message
 }
 ```
 
@@ -121,18 +122,20 @@ The data is simply an array which can be used to store arbitrary values which yo
 $alerts->error("Standard error message");
 $alerts->error("Please check the value you entered", [ 'overlay' => true ]);
 
-// Let's output only the errors that we included 'overlay' => true into the SweetAlerts renderer
+// Get only errors that have overlay => true specified in their data
 $messages = $alerts->errors([ 'overlay' => true ]);
+
+// Render those alerts via the SweetAlerts renderer
 $messages->render(\Alerts\Renderer\SweetAlerts);
 ```
 
-## Motivation
-
-It's convenient to have a single interface for managing alerts throughout the entire application, and to be able to exactly define the way those alerts should be rendered.
 
 ## Installation
 
-TODO
+Use composer to include this library within your project:
+```
+composer require i4ucode\alerts
+```
 
 ## API Reference
 
