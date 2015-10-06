@@ -1,5 +1,33 @@
 # alerts
-Alerts is a PHP library for managing and rendering alerts (such as error and success messages) within an application.  It does not enforce a particular output format (instead a Renderer interface is provided) and it provides some useful methods for easily filtering those alerts.
+Alerts is a flexible PHP library for managing and rendering alerts / notifications (such as error and success messages) within an application.  
+
+Alerts has no dependencies and provides rendering flexibility so that it can be easily tailored to suit your frontend or backend framework.
+
+## Basic Usage
+
+Add to your project via `composer require i4ucode/alerts` and you're ready to use Alerts within your application:
+
+```php
+use Alerts\Alerts;
+
+// Create new alerts instance and render as Boostrap style HTML
+$alerts = new Alerts(new \Alerts\Renderer\Bootstrap);	
+
+// Add some alerts
+$alerts->success("Record successfully updated");
+$alerts->warning("Unable to send notification to administrator");
+$alerts->notice("FYI - You probably shouldn't do that again...");
+$alerts->error("An error occurred");
+$alerts->error("Oh no, another error");
+
+// Output the alerts 
+echo $alerts->render();
+
+// Loop through only the errors
+foreach ($alerts->errors() as $message) {
+	echo "ERROR: ".$message->getMessage()."\n";
+}
+```
 
 ## Synopsis
 
@@ -15,21 +43,6 @@ At the top of the file there should be a short introduction and/ or overview tha
 
 ## Examples
 
-### Basic Example
-
-```php
-use Alerts\Alerts;
-
-// Create new alerts instance and optionally specify the default renderer
-$alerts = new Alerts(new \Alerts\Renderer\Text);
-
-// Add an error and a notice to the alerts
-$alerts->error("Oh no an error occurred");
-$alerts->notice("FYI - You probably shouldn't do that again...");
-
-// Output the alerts (using the default renderer specified in the constructor)
-echo $alerts->render();
-```
 
 ### Different types of alerts
 
@@ -102,7 +115,7 @@ $alerts->setRenderer(new \Alerts\Renderer\SweetAlerts);
 echo $alerts;  // the overloaded _toString() method automatically calls render()
 ```
 
-### Adding additional data to each alerts.
+### Adding additional data to an alert message
 
 Internally each alert is stored as an `Alerts\Message` object.  This object includes a `data` property which can be used to associate an array of data with an alert.  This can be used for anything such as categorising or tagging fields.
 
@@ -144,6 +157,11 @@ TODO
 ## Tests
 
 More tests come soon.
+
+## Author
+
+Jodie Dunlop / i4u
+http://www.i4u.com.au/
 
 ## Contributors
 
